@@ -3,10 +3,16 @@ require "net/smtp"
 
 Net::SMTP.class_eval do
   private
+  
+  def ruby_post_1_8_6?
+    ruby_major, ruby_minor, ruby_teeny = *RUBY_VERSION.split(".")
+    ruby_minor >= 9 ||( [ruby_major, ruby_minor] == [1, 8] && ruby_teeny > 6)
+  end
+    
   def do_start(helodomain, user, secret, authtype)
     raise IOError, 'SMTP session already started' if @started
     if user or secret
-      if RUBY_VERSION == "1.8.7"
+      if ruby_post_1_8_6?
         check_auth_args user, secret
       else
         check_auth_args user, secret, authtype
