@@ -5,7 +5,7 @@ Net::SMTP.class_eval do
   private
   
   def ruby_post_1_8_6?
-    ruby_major, ruby_minor, ruby_teeny = *RUBY_VERSION.split(".")
+    ruby_major, ruby_minor, ruby_teeny = *RUBY_VERSION.split(".").map {|str| str.to_i}
     ruby_minor >= 9 ||( [ruby_major, ruby_minor] == [1, 8] && ruby_teeny > 6)
   end
     
